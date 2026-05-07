@@ -20,27 +20,27 @@
 
 ```mermaid
 timeline
-    title FeynFlow 开发历程
-    2026-04-27 : 创建项目骨架<br>10个H2+100个目录+289个.md
-    2026-04-28 : 费曼式笔记填充<br>46篇核心笔记+4篇MATLAB提示词
-    2026-04-28 : 6轮agent循环扩展<br>301篇笔记全部≥5000字节
-    2026-04-29 : 7种图表集成<br>PlantUML/WaveDrom/Graphviz/Vega
-    2026-04-29 : 教科书原文集中化<br>64个§文件+249处[[链接]]
-    2026-04-30 : RAG优化+Cherry Studio<br>164篇关键词+AI系统指令
-    2026-05-07 : 发布FeynFlow插件包<br>4个agent+7模板+多语言
+    title FeynFlow Development
+    04-27 : Project skeleton<br>10 H2 + 100 dirs + 289 files
+    04-28 : Feynman notes filled<br>46 core + 4 MATLAB prompts
+    04-28 : 6 agent rounds<br>All 301 notes >= 5000 bytes
+    04-29 : 7 diagram types<br>PlantUML/WaveDrom/Graphviz/Vega
+    04-29 : Textbook centralized<br>64 section files + 249 links
+    04-30 : RAG + Cherry Studio<br>164 keyword + AI system prompt
+    05-07 : FeynFlow plugin<br>4 agents + 7 templates + i18n
 ```
 
 ### 技术栈一览
 
 ```mermaid
 quadrantChart
-    title 工具 vs 用途
-    x-axis 轻量便捷 → 功能强大
-    y-axis 用户端 → 开发端
-    quadrant-1 开发工具
-    quadrant-2 核心引擎
-    quadrant-3 辅助工具
-    quadrant-4 前端应用
+    title FeynFlow Tool Stack
+    x-axis Lightweight --> Powerful
+    y-axis User-facing --> Developer
+    quadrant-1 Developer Tools
+    quadrant-2 Core Engine
+    quadrant-3 Supporting
+    quadrant-4 Frontend
     Claude Code: [0.85, 0.75]
     Pandoc: [0.3, 0.7]
     Obsidian: [0.6, 0.25]
@@ -57,22 +57,15 @@ quadrantChart
 
 ```mermaid
 flowchart LR
-    A[教科书原文<br>DOCX/PDF/TXT] --> B[Claude Code<br>运行4个agent]
-    B --> C[Obsidian 费曼式笔记<br>300+篇,含图表+公式+链接]
-    C --> D[Cherry Studio<br>RAG 知识库]
-    D --> E[本地嵌入模型<br>Qwen3-Embedding-8B]
-    E --> F[AI 费曼导师<br>交互式教学]
+    A[Textbook<br>DOCX/PDF/TXT] --> B[Claude Code<br>Run 4 Agents]
+    B --> C[Obsidian Feynman Notes<br>300+ with diagrams+links]
+    C --> D[Cherry Studio<br>RAG Knowledge Base]
+    D --> E[Local Embedding<br>Qwen3-Embedding-8B]
+    E --> F[AI Feynman Tutor<br>Interactive Teaching]
     
-    F -->|概念→类比→盲点→简化| G[✓ 用户掌握]
-    G -->|仍有盲区？| H[回溯到前置知识<br>概念导航直连]
+    F -->|Concept->Analogy->Check| G[Mastered]
+    G -->|Still stuck?| H[Backtrack via<br>Concept Navigation]
     H --> B
-
-    style A fill:#4a90d9,color:#fff
-    style B fill:#50c878,color:#fff
-    style C fill:#ffd700,color:#000
-    style D fill:#ff6b6b,color:#fff
-    style E fill:#a8e6cf,color:#000
-    style F fill:#d4a5f5,color:#fff
 ```
 
 ### 工作流程拆解
