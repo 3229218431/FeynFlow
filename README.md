@@ -16,6 +16,41 @@
 
 **FeynFlow 的核心思想**：你不是在做一个普通的笔记库，你是在建一个**AI可以检索和教学的互动知识图谱**。每个笔记不仅是为你自己看的，也是为 AI 导师准备的教材。
 
+### 开发时间线
+
+```mermaid
+timeline
+    title FeynFlow 开发历程
+    2026-04-27 : 创建项目骨架<br>10个H2+100个目录+289个.md
+    2026-04-28 : 费曼式笔记填充<br>46篇核心笔记+4篇MATLAB提示词
+    2026-04-28 : 6轮agent循环扩展<br>301篇笔记全部≥5000字节
+    2026-04-29 : 7种图表集成<br>PlantUML/WaveDrom/Graphviz/Vega
+    2026-04-29 : 教科书原文集中化<br>64个§文件+249处[[链接]]
+    2026-04-30 : RAG优化+Cherry Studio<br>164篇关键词+AI系统指令
+    2026-05-07 : 发布FeynFlow插件包<br>4个agent+7模板+多语言
+```
+
+### 技术栈一览
+
+```mermaid
+quadrantChart
+    title 工具 vs 用途
+    x-axis 轻量便捷 → 功能强大
+    y-axis 用户端 → 开发端
+    quadrant-1 开发工具
+    quadrant-2 核心引擎
+    quadrant-3 辅助工具
+    quadrant-4 前端应用
+    Claude Code: [0.85, 0.75]
+    Pandoc: [0.3, 0.7]
+    Obsidian: [0.6, 0.25]
+    Cherry Studio: [0.7, 0.3]
+    Qwen3-Embedding: [0.75, 0.6]
+    Git: [0.4, 0.8]
+    Mermaid: [0.5, 0.35]
+    PlantUML: [0.6, 0.4]
+```
+
 ---
 
 ## 🔧 工具链全览
@@ -174,6 +209,31 @@ claude ../FeynFlow/agents/04-verify.agent.md    # 4. 测试+修复
 
 ## 🧪 6 项质量测试（T1-T6）
 
+Agent 04 的自动测试循环：
+
+```mermaid
+stateDiagram-v2
+    [*] --> T1_链接检测
+    T1_链接检测 --> T2_公式检测: 通过
+    T1_链接检测 --> T1_链接检测: 修复
+    T2_公式检测 --> T3_图表语法: 通过
+    T2_公式检测 --> T2_公式检测: 修复
+    T3_图表语法 --> T4_内容完整: 通过
+    T3_图表语法 --> T3_图表语法: 修复
+    T4_内容完整 --> T5_覆盖率: 通过
+    T4_内容完整 --> T4_内容完整: 修复
+    T5_覆盖率 --> T6_图谱连通: 通过
+    T5_覆盖率 --> T5_覆盖率: 修复
+    T6_图谱连通 --> [*]: 全部通过✅
+    T6_图谱连通 --> T6_图谱连通: 修复
+    note right of T1_链接检测: 死链+孤立节点
+    note right of T2_公式检测: $$...$$包裹
+    note right of T3_图表语法: Mermaid/PlantUML
+    note right of T4_内容完整: 关键词+自己理解
+    note right of T5_覆盖率: TOC逐节对应
+    note right of T6_图谱连通: 反向链接完整
+```
+
 Agent 04 自动执行：
 
 | 测试 | 检查项 | 自动修复 |
@@ -204,6 +264,55 @@ Agent 04 自动执行：
 | 每篇笔记字数 | ≥5000 字节 |
 | Git 提交 | 45 次 |
 | 构建轮次 | 6 轮 agent 循环 |
+
+## 项目结构总览
+
+```mermaid
+mindmap
+  root((FeynFlow))
+    核心插件包
+      4个agent
+      7个模板
+      hooks配置
+      plugin.json
+    多语言README
+      中文
+      英文
+      西班牙语
+    示例项目
+      64个§原文
+      328篇概念笔记
+      250+图表
+    工具链
+      Claude Code
+      Obsidian
+      Cherry Studio
+      Qwen3-Embedding
+```
+
+## 每篇笔记的结构
+
+```mermaid
+mindmap
+  root((单篇笔记))
+    元数据
+      YAML frontmatter
+      **关键词**：RAG标签
+    教科书原文
+      → [[§链接]]
+    费曼第1步：精准输入
+      概念定义
+      核心公式 $$
+    费曼第2步：简单解释
+      类比与直觉
+      推导脉络 Mermaid
+    费曼第3步：盲点检验
+      常见误区
+      费曼检验 2-6题
+    费曼第4步：简化优化
+      概念导航 [[链接]]
+      自己理解（用户填写）
+```
 
 可直接把 `examples/电磁场与电磁波/` 整个目录导入 Cherry Studio 作为知识库：
 1. Cherry Studio → 知识库 → 创建
