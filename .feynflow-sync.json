@@ -1,0 +1,11 @@
+{
+  "project": "FeynFlow",
+  "type": "plugin",
+  "source_project": "电磁场与电磁波",
+  "source_path": "E:\\obsidian_--git\\电磁场与电磁波",
+  "sync_rules": {
+    "description": "FeynFlow 与电磁场与电磁波示例项目保持同步",
+    "sync_on_change": true,
+    "trigger": "改进电磁场与电磁波项目时必须同步更新 FeynFlow"
+  }
+}
