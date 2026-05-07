@@ -1,3 +1,7 @@
+[English](README.en.md) | [中文](README.md) | [Español](README.es.md)
+
+---
+
 # FeynFlow — Feynman + Workflow
 
 > Feynman + Workflow: Claude Code genera base de conocimiento Obsidian → Cherry Studio RAG → Tutor AI Feynman
