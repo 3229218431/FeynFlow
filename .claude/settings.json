@@ -1,0 +1,8 @@
+{
+  "flags": {
+    "powerSteering": {
+      "agents": true,
+      "hooks": true
+    }
+  }
+}

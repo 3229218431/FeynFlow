@@ -1,0 +1,15 @@
+# Obsidian workspace files (changes every time you open Obsidian)
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+
+# Trash/deleted files
+.trash/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.bak

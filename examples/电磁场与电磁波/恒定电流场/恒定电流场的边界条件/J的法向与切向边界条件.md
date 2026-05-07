@@ -1,0 +1,16 @@
+---
+tags: [电磁场, 恒定电流场, 边界条件]
+chapter: "第4章"
+textbook_section: "§4-4"
+textbook_page: "115"
+type: core-concept
+difficulty: intermediate
+level: ★★
+created: 2026-04-28
+---
+# J的法向与切向边界条件
+**关键词**：边界条件, D法向, E切向, ρₛ, 介质分界面
+
+## 教科书原文
+
+> 📖 参见：[[§4-4 恒定电流场的边界条件]]

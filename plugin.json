@@ -1,0 +1,10 @@
+{
+  "name": "FeynFlow",
+  "version": "1.0.0",
+  "description": "费曼+Workflow：Claude Code生成Obsidian知识库 → Cherry Studio RAG → AI费曼导师交互式教学",
+  "author": "FeynFlow",
+  "type": "workflow",
+  "agents": ["agents/01-setup.agent.md", "agents/02-extract.agent.md", "agents/03-build.agent.md", "agents/04-verify.agent.md"],
+  "templates": ["templates/"],
+  "hooks": ["hooks/"]
+}
