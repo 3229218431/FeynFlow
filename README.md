@@ -42,15 +42,16 @@ FeynFlow 是一个**教科书到AI知识图谱的自动化构建工具链**。�
 ### 开发时间线
 
 ```mermaid
+%%{init: {'theme':'base','themeVariables': {'primaryColor': '#3B82F6','primaryTextColor': '#fff','secondaryColor': '#10B981'}}}%%
 timeline
     title FeynFlow Development
-    04-27 : Project skeleton<br>10 H2 + 100 dirs + 289 files
-    04-28 : Feynman notes filled<br>46 core + 4 MATLAB prompts
-    04-28 : 6 agent rounds<br>All 301 notes >= 5000 bytes
-    04-29 : 7 diagram types<br>PlantUML/WaveDrom/Graphviz/Vega
-    04-29 : Textbook centralized<br>64 section files + 249 links
-    04-30 : RAG + Cherry Studio<br>164 keyword + AI system prompt
-    05-07 : FeynFlow plugin<br>4 agents + 7 templates + i18n
+    04-27 : Project skeleton : 10 H2 + 100 dirs + 289 files
+    04-28 : Feynman notes filled : 46 core + 4 MATLAB
+    04-28 : 6 agent rounds : All 301 notes >= 5000B
+    04-29 : 7 diagram types : PlantUML/WaveDrom/Graphviz
+    04-29 : Textbook centralized : 64 sections + 249 links
+    04-30 : RAG + Cherry Studio : 164 keywords + AI prompt
+    05-07 : FeynFlow plugin : 4 agents + 7 templates
 ```
 
 ---
@@ -122,23 +123,23 @@ sequenceDiagram
 ### 构建时间预估
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables': {'primaryColor': '#3B82F6','primaryTextColor': '#fff','lineColor': '#F59E0B','secondaryColor': '#10B981'}}}%%
 gantt
     title Knowledge Base Build Timeline
     dateFormat  YYYY-MM-DD
+    axisFormat  %m-%d
     section Setup
-    Install dependencies       :done, a1, 1d
-    Copy skeleton + templates  :done, a2, 1d
+    Install dependencies       :a1, 2026-05-01, 1d
+    Copy skeleton + templates  :a2, 2026-05-02, 1d
     section Extract
-    Convert textbook to MD     :active, b1, 1d
-    Split into section files   :b2, 2d
+    Convert textbook to MD     :b1, 2026-05-03, 1d
+    Split into section files   :b2, 2026-05-04, 2d
     section Build
-    Create folder structure    :c1, 1d
-    Write Feynman notes        :c2, 5d
-    Add diagrams + links       :c3, 3d
+    Create folder structure    :c1, 2026-05-06, 1d
+    Write Feynman notes        :c2, 2026-05-07, 5d
+    Add diagrams + links       :c3, 2026-05-12, 3d
     section Verify
-    Run T1-T6 tests            :crit, d1, 1d
-    Fix issues                 :d2, 1d
+    Run T1-T6 tests            :crit, d1, 2026-05-15, 1d
+    Fix issues                 :d2, 2026-05-16, 1d
 ```
 
 ---
