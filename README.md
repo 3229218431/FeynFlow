@@ -58,16 +58,45 @@ timeline
 ## 🔧 工具链概览
 
 ```mermaid
-flowchart LR
-    A[Textbook DOCX/PDF] --> B[Claude Code 4 Agents]
-    B --> C[Obsidian Vault<br>Feynman Notes + MOC]
-    B --> D[Textbook Originals<br>Section Files]
-    C --> E[Cherry Studio RAG KB]
+graph LR
+    A(📘 Textbook) --> B{Claude Code}
+    B --> C[📝 Obsidian Notes]
+    B --> D[📄 Textbook Files]
+    C --> E[🔍 Cherry Studio KB]
     D --> E
-    E --> F[Qwen3-Embedding<br>Local Model]
-    F --> G[AI Feynman Tutor]
-    G --> H[User Mastery]
-    H -.->|blind spot| C
+    E --> F[🧠 Qwen3 Embedding]
+    F --> G[🤖 AI Feynman Tutor]
+    G --> H[✅ User Mastery]
+    H -.->|retry| C
+```
+
+### Agent 交互流程
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant A1 as Agent 01 Setup
+    participant A2 as Agent 02 Extract
+    participant A3 as Agent 03 Build
+    participant A4 as Agent 04 Verify
+    
+    U->>A1: Provide textbook path
+    A1->>A1: Check Pandoc, create skeleton
+    A1->>A2: Ready to extract
+    A2->>A2: Convert textbook → Markdown
+    A2->>A2: Split into section files
+    A2->>A3: Section files ready
+    A3->>A3: Create folder structure
+    A3->>A3: Write Feynman concept notes
+    A3->>A3: Add diagrams + links
+    A3->>A4: Knowledge base built
+    loop Until all pass
+        A4->>A4: Run T1-T6 tests
+        A4->>A3: Fix and retry
+    end
+    A4->>U: Quality report ✅
+    U->>Cherry Studio: Import knowledge base
+    Cherry Studio->>AI Tutor: Begin teaching
 ```
 
 ### 工作流程拆解
@@ -79,6 +108,29 @@ flowchart LR
 | 3. 构建 | `03-build agent` | 概念笔记 + 图表 + MOC | 费曼填充+7种图表 |
 | 4. 验证 | `04-verify agent` | 质量报告 | 6项测试+自动修复 |
 | 5. 教学 | Cherry Studio + AI | 交互式学习 | 本地嵌入+AI教学 |
+
+---
+
+### 构建时间预估
+
+```mermaid
+gantt
+    title Knowledge Base Build Timeline
+    dateFormat  YYYY-MM-DD
+    section Setup
+    Install dependencies       :a1, 1d
+    Copy skeleton + templates  :a2, 1d
+    section Extract
+    Convert textbook to MD     :b1, 1d
+    Split into section files   :b2, 2d
+    section Build
+    Create folder structure    :c1, 1d
+    Write Feynman notes        :c2, 5d
+    Add diagrams + links       :c3, 3d
+    section Verify
+    Run T1-T6 tests            :d1, 1d
+    Fix issues                 :d2, 1d
+```
 
 ---
 
@@ -268,51 +320,53 @@ stateDiagram-v2
 
 ## 项目结构总览
 
-```mermaid
-mindmap
-  root((FeynFlow))
-    Core Plugin
-      4 Agents
-      7 Templates
-      Hooks
-      plugin.json
-    README
-      Chinese
-      English
-      Spanish
-    Example Project
-      64 Section Files
-      328 Concept Notes
-      250 Diagrams
-    Toolchain
-      Claude Code
-      Obsidian
-      Cherry Studio
-      Qwen3-Embedding
+```plantuml
+@startmindmap
++ FeynFlow
+++ Core Plugin
++++ 4 Agents
++++ 7 Templates
++++ Hooks
++++ plugin.json
+++ README
++++ Chinese
++++ English
++++ Spanish
+++ Example Project
++++ 64 Section Files
++++ 328 Concept Notes
++++ 250+ Diagrams
+++ Toolchain
++++ Claude Code
++++ Obsidian
++++ Cherry Studio
++++ Qwen3 Embedding
+@endmindmap
 ```
 
 ## 每篇笔记的结构
 
-```mermaid
-mindmap
-  root((Single Note Structure))
-    Metadata
-      YAML Frontmatter
-      Keywords Tag
-    Textbook Original
-      Section Link
-    Step 1: Input
-      Concept Definition
-      Core Formula
-    Step 2: Teach
-      Life Analogy
-      Derivation Chart
-    Step 3: Blind Spot
-      Common Mistakes
-      Self-test Questions
-    Step 4: Simplify
-      Concept Navigation
-      My Understanding
+```plantuml
+@startmindmap
++ Single Note Structure
+++ Metadata
++++ YAML Frontmatter
++++ Keywords Tag
+++ Textbook Original
++++ Section Link
+++ Step 1: Feynman Input
++++ Concept Definition
++++ Core Formula
+++ Step 2: Feynman Teach
++++ Life Analogy
++++ Derivation Chart
+++ Step 3: Feynman Blind Spot
++++ Common Mistakes
++++ Self-test Questions
+++ Step 4: Feynman Simplify
++++ Concept Navigation
++++ My Understanding
+@endmindmap
 ```
 
 可直接把 `examples/电磁场与电磁波/` 整个目录导入 Cherry Studio 作为知识库：
