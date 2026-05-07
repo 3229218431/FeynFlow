@@ -10,6 +10,29 @@
 
 ---
 
+## 🧠 FeynFlow 是什么
+
+FeynFlow 是一个**教科书到AI知识图谱的自动化构建工具链**。它把传统教科书的线性文字，转化为 AI 可检索、可教学的交互式知识网络。
+
+| 传统学习方式 | FeynFlow 方式 |
+|-------------|-------------|
+| 自己看书、划重点、做笔记 | AI 自动生成费曼式笔记，你只管学 |
+| 不会的题要翻答案/问老师 | AI 导师用费曼法引导你思考 |
+| 知识点是孤立的 | 每个概念都有 `[[双向链接]]` 形成知识图谱 |
+| 复习要翻整本书 | AI 通过 RAG 精准检索对应知识点 |
+| 笔记只给自己看 | 笔记同时是 AI 的教学素材 |
+
+### 与其他方案对比
+
+| 方案 | 需要 | 效果 | 成本 |
+|------|------|------|------|
+| 自己做 Obsidian 笔记 | 大量时间+自律 | 取决于个人 | 0 元 |
+| 直接问 ChatGPT | 无知识库 | 可能幻觉 | 20$/月 |
+| RAG + 教科书 PDF | 向量数据库 | 检索不精确 | 不定 |
+| **FeynFlow** ✅ | **教科书原文** | **费曼式+图谱+AI教学** | **几乎免费** |
+
+---
+
 ## 📖 开发初衷
 
 > 我当时在使用带费曼学习法的AI提示词，发现非常好用。先通过生活例子类比，然后提出问题让你自己回答。在根据回答内容不断的画图表解释，效果很好。我当时在学习电磁场与电磁波课程时感觉听不懂，我就在想能否让AI辅助我学习。我先使用Claude Code工具去根据教科书原文生成Obsidian笔记，再把这个笔记作为知识库让cherry Studio读取，本地部署一个文本嵌入模型几乎不需要花钱。
@@ -56,13 +79,13 @@ quadrantChart
 ## 🔧 工具链全览
 
 ```mermaid
+%%{init: {'theme':'base','themeVariables': {'primaryColor': '#5D9CEC','primaryTextColor': '#fff','primaryBorderColor': '#3A7BD5','lineColor': '#A0AEC0','secondaryColor': '#48BB78','tertiaryColor': '#F6AD55'}}}%%
 flowchart LR
     A[Textbook<br>DOCX/PDF/TXT] --> B[Claude Code<br>Run 4 Agents]
     B --> C[Obsidian Feynman Notes<br>300+ with diagrams+links]
     C --> D[Cherry Studio<br>RAG Knowledge Base]
     D --> E[Local Embedding<br>Qwen3-Embedding-8B]
     E --> F[AI Feynman Tutor<br>Interactive Teaching]
-    
     F -->|Concept->Analogy->Check| G[Mastered]
     G -->|Still stuck?| H[Backtrack via<br>Concept Navigation]
     H --> B
@@ -312,6 +335,57 @@ mindmap
 2. 添加文件夹 → 选择 `examples/电磁场与电磁波/`
 3. 系统指令 → `Templates/AI费曼导师系统指令.md`
 4. 开始学习
+
+---
+
+## 🎯 方法论：为什么费曼法 + Obsidian + RAG 有效
+
+FeynFlow 结合了三种经过验证的学习理论和工具：
+
+```mermaid
+flowchart TD
+    subgraph 费曼学习法
+        A1[概念定义] --> A2[白话讲解]
+        A2 --> A3[盲点检验]
+        A3 --> A4[简化优化]
+    end
+    subgraph Obsidian双链
+        B1[原子笔记] --> B2[双向链接]
+        B2 --> B3[知识图谱]
+        B3 --> B4[发现隐藏关联]
+    end
+    subgraph RAG技术
+        C1[向量化嵌入] --> C2[语义检索]
+        C2 --> C3[AI+上下文]
+        C3 --> C4[精准回答]
+    end
+    A4 --> C1
+    B4 --> A3
+    C4 --> A2
+```
+
+1. **费曼学习法**：通过"教给别人"来检测理解深度。每个笔记的「类比与直觉」强迫你用日常语言解释抽象概念。
+2. **Obsidian 双链**：`[[前置概念]]` 和 `[[后续概念]]` 形成知识依赖图——理解盲区时一键回溯。
+3. **RAG 检索增强生成**：Cherry Studio 将你的笔记向量化，AI 在回答前先检索相关片段，确保回答基于教科书原文。
+
+三者的循环：费曼法的简化输出 → 向量化存入 RAG → 检索到的内容又成为费曼法新一轮的输入。
+
+---
+
+## 📐 知识图谱的质量标准
+
+FeynFlow 的核心不只是"做笔记"，而是构建一个**AI 可检索、可推理、可教学的知识图谱**。为此定义了6个质量维度：
+
+| 维度 | 要求 | 保证方式 |
+|------|------|---------|
+| **完整度** | 教科书每§至少1篇笔记 | Agent 02 逐节提取，Agent 04 T5 验证 |
+| **准确度** | 所有知识以教科书原文为准 | `## 教科书原文 → [[§链接]]` 强制引用 |
+| **链接度** | 每篇≥3个 `[[双向链接]]` | Agent 03 构造，Agent 04 T1 验证 |
+| **可检索** | 每篇首行 `**关键词**：` | Agent 03 填充，Cherry Studio 直接索引 |
+| **可视化** | 每篇含≥1个流程图/图表 | Agent 03 根据内容自动选择图表工具 |
+| **可检验** | 每篇含费曼检验问题 | 模板强制包含 `## 费曼检验` 板块 |
+
+这就是为什么 FeynFlow 不只是"笔记模板"——它是从教科书到 AI 教学知识图谱的完整质量保障体系。
 
 ---
 
