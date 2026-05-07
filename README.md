@@ -8,6 +8,8 @@
 >
 > 把任意教科书变成一个 AI 费曼导师知识库。全套工具链开箱即用。
 
+> 色彩语义：🔵 工具链 🔵 | 🟢 内容产出 🟢 | 🟠 AI处理 🟠 | 🟣 交互学习 🟣 | 🔴 测试验证 🔴
+
 ---
 
 ## 🧠 FeynFlow 是什么
@@ -53,53 +55,71 @@ timeline
     05-07 : FeynFlow plugin<br>4 agents + 7 templates + i18n
 ```
 
-### 技术栈一览
-
-```mermaid
-quadrantChart
-    title FeynFlow Tool Stack
-    x-axis Lightweight --> Powerful
-    y-axis User-facing --> Developer
-    quadrant-1 Developer Tools
-    quadrant-2 Core Engine
-    quadrant-3 Supporting
-    quadrant-4 Frontend
-    Claude Code: [0.85, 0.75]
-    Pandoc: [0.3, 0.7]
-    Obsidian: [0.6, 0.25]
-    Cherry Studio: [0.7, 0.3]
-    Qwen3-Embedding: [0.75, 0.6]
-    Git: [0.4, 0.8]
-    Mermaid: [0.5, 0.35]
-    PlantUML: [0.6, 0.4]
-```
-
 ---
 
-## 🔧 工具链全览
+## 🔧 工具链概览
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables': {'primaryColor': '#5D9CEC','primaryTextColor': '#fff','primaryBorderColor': '#3A7BD5','lineColor': '#A0AEC0','secondaryColor': '#48BB78','tertiaryColor': '#F6AD55'}}}%%
+%%{init: {'theme':'base','themeVariables': {'primaryColor': '#3B82F6','primaryTextColor': '#fff','lineColor': '#CBD5E1','secondaryColor': '#10B981','tertiaryColor': '#F59E0B'}}}%%
 flowchart LR
-    A[Textbook<br>DOCX/PDF/TXT] --> B[Claude Code<br>Run 4 Agents]
-    B --> C[Obsidian Feynman Notes<br>300+ with diagrams+links]
-    C --> D[Cherry Studio<br>RAG Knowledge Base]
-    D --> E[Local Embedding<br>Qwen3-Embedding-8B]
-    E --> F[AI Feynman Tutor<br>Interactive Teaching]
-    F -->|Concept->Analogy->Check| G[Mastered]
-    G -->|Still stuck?| H[Backtrack via<br>Concept Navigation]
-    H --> B
+    subgraph Input
+        A1[Textbook<br>DOCX/PDF]:::tool
+    end
+    subgraph Process
+        B1[Claude Code<br>4 Agents]:::tool
+        B2[Pandoc<br>Text Conversion]:::tool
+    end
+    subgraph Storage
+        C1[Obsidian Vault<br>Feynman Notes]:::content
+        C2[Textbook Originals<br>64 section files]:::content
+    end
+    subgraph AI
+        D1[Cherry Studio<br>RAG KB]:::ai
+        D2[Qwen3-Embedding<br>Local Embedding]:::ai
+        D3[AI Feynman Tutor<br>Interactive]:::learn
+    end
+    subgraph User
+        E1[Mastery<br>Concept->Analogy->Check]:::learn
+        E2[Backtrack<br>Prerequisites]:::learn
+    end
+    
+    A1 --> B1
+    B1 --> C1
+    B1 --> C2
+    C1 --> D1
+    C2 --> D1
+    D1 --> D2
+    D2 --> D3
+    D3 --> E1
+    E1 -.->|blind spot| E2
+    E2 -.->|review| C1
+    
+    classDef tool fill:#3B82F6,stroke:#2563EB,color:#fff
+    classDef content fill:#10B981,stroke:#059669,color:#fff
+    classDef ai fill:#F59E0B,stroke:#D97706,color:#fff
+    classDef learn fill:#8B5CF6,stroke:#7C3AED,color:#fff
 ```
+
+### 颜色语义
+
+| 颜色 | 含义 | 代表 |
+|------|------|------|
+| 🔵 蓝色 | 工具/基础设施 | Claude Code, Pandoc |
+| 🟢 绿色 | 内容产出 | Obsidian笔记, 教科书原文 |
+| 🟠 橙色 | AI处理 | Cherry Studio, 嵌入模型 |
+| 🟣 紫色 | 学习/用户 | AI导师, 认知掌握 |
+| 🔴 红色 | 测试/验证 (后续图表) | T1-T6 质量门禁 |
+| ⚪ 灰色 | 流程/辅助 (后续图表) | 回退, 链接 |
 
 ### 工作流程拆解
 
-| 阶段 | 工具 | 产出 | 说明 |
+| 阶段 | 工具 | 产出 | 色彩 |
 |------|------|------|------|
-| 1. 准备 | `01-setup agent` + Pandoc | 项目骨架 + 辅助材料 | 自动搜索费曼法+绘图工具+学习指南 |
-| 2. 提取 | `02-extract agent` | `教科书原文/` 目录 | 按§拆分为独立.md文件，一字不差 |
-| 3. 构建 | `03-build agent` | 概念笔记 + 图表 + MOC | 费曼四步法填充，7种图表工具 |
-| 4. 验证 | `04-verify agent` | 质量报告 | 6项测试T1-T6，自动修复至达标 |
-| 5. 教学 | Cherry Studio + AI | 交互式学习 | 本地嵌入模型，AI费曼导师 |
+| 1. 准备 | `01-setup agent` + Pandoc | 项目骨架 + 辅助材料 | 🔵 工具 |
+| 2. 提取 | `02-extract agent` | `教科书原文/` 目录 | 🟢 内容 |
+| 3. 构建 | `03-build agent` | 概念笔记 + 图表 + MOC | 🟢 内容 |
+| 4. 验证 | `04-verify agent` | 质量报告 | 🔴 测试 |
+| 5. 教学 | Cherry Studio + AI | 交互式学习 | 🟠 AI |
 
 ---
 
@@ -162,10 +182,8 @@ cd FeynFlow
 # 复制骨架到新目录
 cp -r skeleton/* ../我的新学科/
 cd ../我的新学科
-
 # 把你的教科书放进项目根目录（如 教科书.docx）
-
-# 运行 agent
+# 运行 agent 1: 环境准备
 claude ../FeynFlow/agents/01-setup.agent.md
 ```
 
@@ -213,53 +231,66 @@ claude ../FeynFlow/agents/04-verify.agent.md    # 4. 测试+修复
 
 ## 🎨 图表工具覆盖
 
-| 工具 | 数量 | 用途 | Obsidian 渲染 |
-|------|------|------|-------------|
-| Mermaid | 218+ | 推导流程、状态图、思维导图 | ✅ 原生支持 |
-| PlantUML | 30+ | 场分类、边界条件、波导模式 | 需社区插件 |
-| WaveDrom | 16+ | 时域波形、时谐场 | 需社区插件 |
-| Graphviz | 23+ | 概念拓扑、公式依赖 | 需社区插件 |
-| Vega-Lite | 15+ | 场分布曲面、参数扫描 | 需社区插件 |
+```mermaid
+%%{init: {'theme':'base','themeVariables': {'primaryColor': '#3B82F6','primaryTextColor': '#fff','secondaryColor': '#10B981','tertiaryColor': '#F59E0B'}}}%%
+flowchart LR
+    M[Mermaid<br>218 diagrams]:::native --> T1[Flowcharts]:::native
+    M --> T2[State Diagrams]:::native
+    M --> T3[Mindmaps]:::native
+    P[PlantUML<br>30 diagrams]:::plugin --> T4[Class Diagrams]:::plugin
+    P --> T5[Sequence]:::plugin
+    W[WaveDrom<br>16 diagrams]:::plugin --> T6[Waveforms]:::plugin
+    G[Graphviz<br>23 diagrams]:::plugin --> T7[Network Graphs]:::plugin
+    V[Vega-Lite<br>15 diagrams]:::plugin --> T8[Distribution Plots]:::plugin
+    
+    classDef native fill:#10B981,stroke:#059669,color:#fff
+    classDef plugin fill:#F59E0B,stroke:#D97706,color:#fff
+```
+
+| 工具 | 数量 | 用途 | Obsidian 渲染 | 色标 |
+|------|------|------|-------------|------|
+| Mermaid | 218+ | 推导流程、状态图、思维导图 | ✅ 原生支持 | 🟢 |
+| PlantUML | 30+ | 场分类、边界条件、波导模式 | 需社区插件 | 🟠 |
+| WaveDrom | 16+ | 时域波形、时谐场 | 需社区插件 | 🟠 |
+| Graphviz | 23+ | 概念拓扑、公式依赖 | 需社区插件 | 🟠 |
+| Vega-Lite | 15+ | 场分布曲面、参数扫描 | 需社区插件 | 🟠 |
 
 ---
 
 ## 🧪 6 项质量测试（T1-T6）
 
-Agent 04 的自动测试循环：
-
 ```mermaid
+%%{init: {'theme':'base','themeVariables': {'primaryColor': '#EF4444','primaryTextColor': '#fff','lineColor': '#FCA5A5','secondaryColor': '#10B981','tertiaryColor': '#3B82F6'}}}%%
 stateDiagram-v2
-    [*] --> T1_链接检测
-    T1_链接检测 --> T2_公式检测: 通过
-    T1_链接检测 --> T1_链接检测: 修复
-    T2_公式检测 --> T3_图表语法: 通过
-    T2_公式检测 --> T2_公式检测: 修复
-    T3_图表语法 --> T4_内容完整: 通过
-    T3_图表语法 --> T3_图表语法: 修复
-    T4_内容完整 --> T5_覆盖率: 通过
-    T4_内容完整 --> T4_内容完整: 修复
-    T5_覆盖率 --> T6_图谱连通: 通过
-    T5_覆盖率 --> T5_覆盖率: 修复
-    T6_图谱连通 --> [*]: 全部通过✅
-    T6_图谱连通 --> T6_图谱连通: 修复
-    note right of T1_链接检测: 死链+孤立节点
-    note right of T2_公式检测: $$...$$包裹
-    note right of T3_图表语法: Mermaid/PlantUML
-    note right of T4_内容完整: 关键词+自己理解
-    note right of T5_覆盖率: TOC逐节对应
-    note right of T6_图谱连通: 反向链接完整
+    [*] --> T1_LinkCheck
+    T1_LinkCheck --> T2_FormulaCheck: pass
+    T1_LinkCheck --> T1_LinkCheck: fix
+    T2_FormulaCheck --> T3_DiagramCheck: pass
+    T2_FormulaCheck --> T2_FormulaCheck: fix
+    T3_DiagramCheck --> T4_ContentCheck: pass
+    T3_DiagramCheck --> T3_DiagramCheck: fix
+    T4_ContentCheck --> T5_CoverageCheck: pass
+    T4_ContentCheck --> T4_ContentCheck: fix
+    T5_CoverageCheck --> T6_GraphCheck: pass
+    T5_CoverageCheck --> T5_CoverageCheck: fix
+    T6_GraphCheck --> [*]: All Passed
+    T6_GraphCheck --> T6_GraphCheck: fix
+    note right of T1_LinkCheck: Dead links + isolated nodes
+    note right of T2_FormulaCheck: $$...$$ wrapping
+    note right of T3_DiagramCheck: Mermaid/PlantUML syntax
+    note right of T4_ContentCheck: Keywords + Self-understanding
+    note right of T5_CoverageCheck: ToC section mapping
+    note right of T6_GraphCheck: Backlinks complete
 ```
 
-Agent 04 自动执行：
-
-| 测试 | 检查项 | 自动修复 |
-|------|--------|---------|
-| **T1 链接** | 无死链、无孤立节点 | ✅ 自动替换 |
-| **T2 公式** | 全部 `$$...$$` 包裹 | ✅ 自动包裹 |
-| **T3 图表** | Mermaid/PlantUML 语法正确 | ✅ 自动修正 |
-| **T4 内容** | 字节数、关键词、自己理解板块 | ✅ 自动补充 |
-| **T5 覆盖率** | TOC逐节对应 | ✅ 自动创建 |
-| **T6 图谱** | 反向链接完整 | ✅ 自动添加 |
+| 测试 | 检查项 | 自动修复 | 色标 |
+|------|--------|---------|------|
+| **T1 链接** | 无死链、无孤立节点 | ✅ 自动替换 | 🔴 |
+| **T2 公式** | 全部 `$$...$$` 包裹 | ✅ 自动包裹 | 🔴 |
+| **T3 图表** | Mermaid/PlantUML 语法正确 | ✅ 自动修正 | 🔴 |
+| **T4 内容** | 字节数、关键词、自己理解 | ✅ 自动补充 | 🔴 |
+| **T5 覆盖率** | TOC逐节对应 | ✅ 自动创建 | 🔴 |
+| **T6 图谱** | 反向链接完整 | ✅ 自动添加 | 🔴 |
 
 ---
 
@@ -284,22 +315,23 @@ Agent 04 自动执行：
 ## 项目结构总览
 
 ```mermaid
+%%{init: {'theme':'base','themeVariables': {'primaryColor': '#3B82F6','primaryTextColor': '#fff','lineColor': '#93C5FD'}}}%%
 mindmap
   root((FeynFlow))
-    核心插件包
-      4个agent
-      7个模板
-      hooks配置
-      plugin.json
-    多语言README
-      中文
-      英文
-      西班牙语
-    示例项目
-      64个§原文
-      328篇概念笔记
-      250+图表
-    工具链
+    [core] Core Plugin
+      [agent] 4 Agents
+      [tmpl] 7 Templates
+      [hook] Hooks
+      [conf] plugin.json
+    [i18n] README
+      🇨🇳 Chinese
+      🇬🇧 English
+      🇪🇸 Spanish
+    [content] Example Project
+      [tb] 64 Section Files
+      [note] 328 Concept Notes
+      [diagram] 250+ Diagrams
+    [tool] Toolchain
       Claude Code
       Obsidian
       Cherry Studio
@@ -309,25 +341,26 @@ mindmap
 ## 每篇笔记的结构
 
 ```mermaid
+%%{init: {'theme':'base','themeVariables': {'primaryColor': '#8B5CF6','primaryTextColor': '#fff','lineColor': '#C4B5FD'}}}%%
 mindmap
-  root((单篇笔记))
-    元数据
-      YAML frontmatter
-      **关键词**：RAG标签
-    教科书原文
-      → [[§链接]]
-    费曼第1步：精准输入
-      概念定义
-      核心公式 $$
-    费曼第2步：简单解释
-      类比与直觉
-      推导脉络 Mermaid
-    费曼第3步：盲点检验
-      常见误区
-      费曼检验 2-6题
-    费曼第4步：简化优化
-      概念导航 [[链接]]
-      自己理解（用户填写）
+  root((Single Note<br>Structure))
+    [meta] Metadata
+      YAML Frontmatter
+      Keywords Tag
+    [tb] Textbook Original
+      → [[Link]]
+    [feyn1] Step 1: Input
+      Concept Definition
+      Core Formula $$
+    [feyn2] Step 2: Teach
+      Life Analogy
+      Derivation (Mermaid)
+    [feyn3] Step 3: Blind Spot
+      Common Mistakes
+      Self-test 2-6 Questions
+    [feyn4] Step 4: Simplify
+      [[Concept Navigation]]
+      My Understanding (Fill-in)
 ```
 
 可直接把 `examples/电磁场与电磁波/` 整个目录导入 Cherry Studio 作为知识库：
@@ -340,33 +373,39 @@ mindmap
 
 ## 🎯 方法论：为什么费曼法 + Obsidian + RAG 有效
 
-FeynFlow 结合了三种经过验证的学习理论和工具：
-
 ```mermaid
+%%{init: {'theme':'base','themeVariables': {'primaryColor': '#10B981','primaryTextColor': '#fff','lineColor': '#6EE7B7','secondaryColor': '#3B82F6','tertiaryColor': '#F59E0B'}}}%%
 flowchart TD
-    subgraph 费曼学习法
-        A1[概念定义] --> A2[白话讲解]
-        A2 --> A3[盲点检验]
-        A3 --> A4[简化优化]
+    subgraph FeynmanMethod[Feynman Method]
+        direction LR
+        A1[Define Concept]:::feyn --> A2[Plain Language]:::feyn
+        A2 --> A3[Check Blind Spots]:::feyn
+        A3 --> A4[Simplify]:::feyn
     end
-    subgraph Obsidian双链
-        B1[原子笔记] --> B2[双向链接]
-        B2 --> B3[知识图谱]
-        B3 --> B4[发现隐藏关联]
+    subgraph Obsidian[Obsidian Links]
+        direction LR
+        B1[Atomic Notes]:::obs --> B2[Wiki Links]:::obs
+        B2 --> B3[Knowledge Graph]:::obs
+        B3 --> B4[Discover Connections]:::obs
     end
-    subgraph RAG技术
-        C1[向量化嵌入] --> C2[语义检索]
-        C2 --> C3[AI+上下文]
-        C3 --> C4[精准回答]
+    subgraph RAG[RAG AI]
+        direction LR
+        C1[Vector Embedding]:::rag --> C2[Semantic Search]:::rag
+        C2 --> C3[AI + Context]:::rag
+        C3 --> C4[Accurate Answers]:::rag
     end
-    A4 --> C1
-    B4 --> A3
-    C4 --> A2
+    A4 -.->|output| C1
+    B4 -.->|feed| A3
+    C4 -.->|new input| A2
+    
+    classDef feyn fill:#10B981,stroke:#059669,color:#fff
+    classDef obs fill:#3B82F6,stroke:#2563EB,color:#fff
+    classDef rag fill:#F59E0B,stroke:#D97706,color:#fff
 ```
 
-1. **费曼学习法**：通过"教给别人"来检测理解深度。每个笔记的「类比与直觉」强迫你用日常语言解释抽象概念。
-2. **Obsidian 双链**：`[[前置概念]]` 和 `[[后续概念]]` 形成知识依赖图——理解盲区时一键回溯。
-3. **RAG 检索增强生成**：Cherry Studio 将你的笔记向量化，AI 在回答前先检索相关片段，确保回答基于教科书原文。
+1. **🟢 费曼学习法**：通过"教给别人"来检测理解深度。每个笔记的「类比与直觉」强迫你用日常语言解释抽象概念。
+2. **🔵 Obsidian 双链**：`[[前置概念]]` 和 `[[后续概念]]` 形成知识依赖图——理解盲区时一键回溯。
+3. **🟠 RAG 检索增强生成**：Cherry Studio 将你的笔记向量化，AI 在回答前先检索相关片段，确保回答基于教科书原文。
 
 三者的循环：费曼法的简化输出 → 向量化存入 RAG → 检索到的内容又成为费曼法新一轮的输入。
 
@@ -374,18 +413,60 @@ flowchart TD
 
 ## 📐 知识图谱的质量标准
 
-FeynFlow 的核心不只是"做笔记"，而是构建一个**AI 可检索、可推理、可教学的知识图谱**。为此定义了6个质量维度：
+| 维度 | 要求 | 保证方式 | 色标 |
+|------|------|---------|------|
+| **完整度** | 教科书每§至少1篇笔记 | Agent 02 逐节提取，Agent 04 T5 验证 | 🟢 |
+| **准确度** | 所有知识以教科书原文为准 | `## 教科书原文 → [[§链接]]` | 🟢 |
+| **链接度** | 每篇≥3个 `[[双向链接]]` | Agent 03 构造，Agent 04 T1 验证 | 🔵 |
+| **可检索** | 每篇首行 `**关键词**：` | Agent 03 填充，Cherry Studio 直接索引 | 🟠 |
+| **可视化** | 每篇含≥1个流程图/图表 | Agent 03 根据内容自动选择图表工具 | 🟠 |
+| **可检验** | 每篇含费曼检验问题 | 模板强制包含 `## 费曼检验` 板块 | 🔴 |
 
-| 维度 | 要求 | 保证方式 |
-|------|------|---------|
-| **完整度** | 教科书每§至少1篇笔记 | Agent 02 逐节提取，Agent 04 T5 验证 |
-| **准确度** | 所有知识以教科书原文为准 | `## 教科书原文 → [[§链接]]` 强制引用 |
-| **链接度** | 每篇≥3个 `[[双向链接]]` | Agent 03 构造，Agent 04 T1 验证 |
-| **可检索** | 每篇首行 `**关键词**：` | Agent 03 填充，Cherry Studio 直接索引 |
-| **可视化** | 每篇含≥1个流程图/图表 | Agent 03 根据内容自动选择图表工具 |
-| **可检验** | 每篇含费曼检验问题 | 模板强制包含 `## 费曼检验` 板块 |
+---
 
-这就是为什么 FeynFlow 不只是"笔记模板"——它是从教科书到 AI 教学知识图谱的完整质量保障体系。
+## 🏗️ 架构设计
+
+```mermaid
+%%{init: {'theme':'base','themeVariables': {'primaryColor': '#3B82F6','primaryTextColor': '#fff','lineColor': '#93C5FD'}}}%%
+flowchart TB
+    subgraph UserLayer[User Layer]
+        direction TB
+        U1[User: Provides textbook]:::user
+        U2[AI Tutor: Teaches interactively]:::user
+    end
+    subgraph AgentLayer[Agent Layer]
+        direction LR
+        A1[Setup<br>Agent 01]:::agent --> A2[Extract<br>Agent 02]:::agent
+        A2 --> A3[Build<br>Agent 03]:::agent
+        A3 --> A4[Verify<br>Agent 04]:::agent
+        A4 -.->|loop if fail| A3
+    end
+    subgraph StorageLayer[Knowledge Base]
+        direction LR
+        S1[Textbook<br>Originals]:::store
+        S2[Feynman<br>Notes]:::store
+        S3[MOC<br>Indexes]:::store
+    end
+    subgraph AILayer[AI Layer]
+        D1[Cherry Studio<br>RAG]:::ai
+        D2[Qwen3<br>Embedding]:::ai
+        D3[LLM<br>Inference]:::ai
+        D1 --> D2 --> D3
+    end
+    
+    U1 --> A1
+    A2 --> S1
+    A3 --> S2
+    A3 --> S3
+    S1 --> D1
+    S2 --> D1
+    D3 --> U2
+
+    classDef user fill:#8B5CF6,stroke:#7C3AED,color:#fff
+    classDef agent fill:#3B82F6,stroke:#2563EB,color:#fff
+    classDef store fill:#10B981,stroke:#059669,color:#fff
+    classDef ai fill:#F59E0B,stroke:#D97706,color:#fff
+```
 
 ---
 
@@ -405,6 +486,12 @@ A: 推荐 Qwen3-Embedding-8B（免费且性能第一），也支持任何其他�
 
 **Q: 一个学科大约要建多久？**
 A: 取决于教科书篇幅。电磁场示例（8章、64节）在 6 轮 agent 循环中完成，约 2-3 小时。
+
+**Q: 笔记中的图表需要手动画吗？**
+A: 不需要。Agent 03 会根据概念自动选择并嵌入合适的图表工具。
+
+**Q: 如果 AI 的回答我不满意怎么办？**
+A: 可以通过「概念导航」中的前置链接回溯到更基础的笔记，或者直接在 Cherry Studio 中追问。
 
 ---
 
