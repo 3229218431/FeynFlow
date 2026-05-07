@@ -4,51 +4,141 @@
 
 # FeynFlow — Feynman + Workflow
 
-> **Feynman + Workflow**：Claude Code generates Obsidian notes → Cherry Studio RAG → AI Feynman Tutor interactive teaching.
+> **Feynman + Workflow**: Claude Code generates Obsidian notes → Cherry Studio RAG → AI Feynman Tutor interactive teaching.
 >
 > Turn any textbook into an AI Feynman tutor knowledge base. Full toolchain out of the box.
 
 ---
 
-## 📖 Origin Story
+## 🧠 What is FeynFlow
 
-> I found the Feynman-method AI prompts incredibly effective: first life analogies, then questions to make you think, then diagrams to explain based on my responses. When I struggled with my electromagnetic fields course, I wondered: can AI help me learn systematically? The solution: Claude Code generates Obsidian notes from the textbook → Cherry Studio reads it as a knowledge base → local embedding models (nearly free) → AI Feynman tutor teaches interactively.
+FeynFlow is an **automated textbook-to-AI-knowledge-graph toolchain**. It transforms linear textbook content into an interactive knowledge network that AI can search and teach from.
 
-**Core idea**: You're not just making a note library — you're building an **interactive knowledge graph** that an AI tutor can retrieve from and teach with. Every note is both for you and for the AI.
+| Traditional Learning | FeynFlow Way |
+|--------------------|-------------|
+| Read, highlight, take notes yourself | AI auto-generates Feynman notes, you just learn |
+| Check answers or ask teachers | AI tutor guides you with Feynman method |
+| Knowledge is isolated | Every concept has `[[bidirectional links]]` forming a knowledge graph |
+| Review the whole book | AI precisely retrieves knowledge via RAG |
+| Notes are for yourself only | Notes are also teaching material for AI |
+
+### Comparison
+
+| Method | Requires | Effect | Cost |
+|--------|----------|--------|------|
+| Manual Obsidian notes | Time + discipline | Depends on person | $0 |
+| Raw ChatGPT | No knowledge base | May hallucinate | $20/mo |
+| RAG + textbook PDF | Vector DB | Imprecise retrieval | Varies |
+| **FeynFlow** ✅ | **Textbook only** | **Feynman+Graph+AI** | **Nearly free** |
 
 ---
 
-## 🔧 Toolchain Overview
+## 📖 Origin Story
+
+> I found the Feynman-method AI prompts incredibly effective: first life analogies, then questions to make you think, then diagrams based on my responses. When I struggled with my electromagnetic fields course, I thought: can AI help me learn systematically? So Claude Code generates Obsidian notes from the textbook → Cherry Studio reads it as a knowledge base → local embedding models (nearly free) → AI Feynman tutor teaches interactively.
+
+**Core idea**: You're not just building a note library — you're building an **interactive knowledge graph** that an AI tutor can search and teach from.
+
+### Development Timeline
 
 ```mermaid
-flowchart LR
-    A[Textbook<br>DOCX/PDF/TXT] --> B[Claude Code<br>Run 4 Agents]
-    B --> C[Obsidian Feynman Notes<br>300+ notes with diagrams+links]
-    C --> D[Cherry Studio<br>RAG Knowledge Base]
-    D --> E[Local Embedding<br>Qwen3-Embedding-8B]
-    E --> F[AI Feynman Tutor<br>Interactive Teaching]
-    
-    F -->|Concept→Analogy→Blind→Simplify| G[✓ Mastered]
-    G -->|Still stuck?| H[Backtrack via<br>Concept Navigation]
-    H --> B
+%%{init: {'theme':'base','themeVariables': {'primaryColor': '#3B82F6','primaryTextColor': '#fff','secondaryColor': '#10B981'}}}%%
+timeline
+    title FeynFlow Development
+    04-27 : Project skeleton : 10 H2 + 100 dirs + 289 files
+    04-28 : Feynman notes filled : 46 core + 4 MATLAB
+    04-28 : 6 agent rounds : All 301 notes >= 5000B
+    04-29 : 7 diagram types : PlantUML/WaveDrom/Graphviz
+    04-29 : Textbook centralized : 64 sections + 249 links
+    04-30 : RAG + Cherry Studio : 164 keywords + AI prompt
+    05-07 : FeynFlow plugin : 4 agents + 7 templates
+```
 
-    style A fill:#4a90d9,color:#fff
-    style B fill:#50c878,color:#fff
-    style C fill:#ffd700,color:#000
-    style D fill:#ff6b6b,color:#fff
-    style E fill:#a8e6cf,color:#000
-    style F fill:#d4a5f5,color:#fff
+---
+
+## 🔧 Toolchain
+
+```mermaid
+%%{init: {'theme':'base','themeVariables': {'background': '#1a1b26','primaryColor': '#3B82F6','primaryTextColor': '#fff','primaryBorderColor': '#2563EB','lineColor': '#6B7280','secondaryColor': '#10B981','tertiaryColor': '#F59E0B','noteTextColor': '#d1d5db','noteBkgColor': '#1f2937'}}}%%
+graph LR
+    A(Textbook):::input --> B{Claude Code}:::process
+    B --> C[Obsidian Notes]:::output
+    B --> D[Textbook Files]:::output
+    C --> E[Cherry Studio KB]:::ai
+    D --> E
+    E --> F[Qwen3 Embedding]:::ai
+    F --> G[AI Feynman Tutor]:::learn
+    G --> H[User Mastery]:::learn
+    H -.->|blind spot| C
+    
+    classDef input fill:#3B82F6,stroke:#2563EB,color:#fff
+    classDef process fill:#8B5CF6,stroke:#7C3AED,color:#fff
+    classDef output fill:#10B981,stroke:#059669,color:#fff
+    classDef ai fill:#F59E0B,stroke:#D97706,color:#fff
+    classDef learn fill:#EC4899,stroke:#DB2777,color:#fff
+```
+
+### Agent Sequence
+
+```mermaid
+%%{init: {'theme':'base','themeVariables': {'actorBkg': '#3B82F6','actorTextColor': '#fff','actorLineColor': '#2563EB','signalColor': '#6B7280','signalTextColor': '#fff','labelBoxBkgColor': '#1f2937','labelBoxBorderColor': '#374151','loopTextColor': '#d1d5db'}}}%%
+sequenceDiagram
+    participant U as User
+    participant A1 as Agent 01 Setup
+    participant A2 as Agent 02 Extract
+    participant A3 as Agent 03 Build
+    participant A4 as Agent 04 Verify
+    
+    U->>A1: Provide textbook path
+    A1->>A1: Check Pandoc + skeleton
+    A1->>A2: Ready to extract
+    A2->>A2: Convert to Markdown
+    A2->>A2: Split into sections
+    A2->>A3: Section files ready
+    A3->>A3: Create folder structure
+    A3->>A3: Write Feynman notes
+    A3->>A3: Add diagrams + links
+    A3->>A4: Knowledge base built
+    loop Until all T1-T6 pass
+        A4->>A4: Run quality tests
+        A4->>A3: Fix and retry
+    end
+    A4->>U: Quality report
+    U->>CS: Import to Cherry Studio
+    CS->>Tutor: AI Feynman tutor begins
 ```
 
 ### Pipeline Breakdown
 
 | Stage | Tool | Output | Description |
 |-------|------|--------|-------------|
-| 1. Setup | `01-setup agent` + Pandoc | Project skeleton + materials | Auto-search Feynman method + drawing tools + study guides |
-| 2. Extract | `02-extract agent` | `教科书原文/` directory | Split textbook into §-level .md files, verbatim |
-| 3. Build | `03-build agent` | Concept notes + diagrams + MOC | Feynman 4-step content, 7 diagram types |
-| 4. Verify | `04-verify agent` | Quality report | 6 tests T1-T6, auto-fix until all pass |
-| 5. Teach | Cherry Studio + AI | Interactive learning | Local embedding model, AI Feynman tutor |
+| 1. Setup | `01-setup` + Pandoc | Project skeleton | Check deps, search materials |
+| 2. Extract | `02-extract` | `Textbook Originals/` | Split into section files |
+| 3. Build | `03-build` | Notes + diagrams + MOC | Feynman fill + 7 diagram types |
+| 4. Verify | `04-verify` | Quality report | 6 tests T1-T6, auto-fix |
+| 5. Teach | Cherry Studio + AI | Interactive learning | Local embedding + AI tutor |
+
+### Build Timeline
+
+```mermaid
+gantt
+    title Knowledge Base Build Timeline
+    dateFormat  YYYY-MM-DD
+    axisFormat  %m-%d
+    section Setup
+    Install dependencies       :a1, 2026-05-01, 1d
+    Copy templates             :a2, 2026-05-02, 1d
+    section Extract
+    Convert to MD              :b1, 2026-05-03, 1d
+    Split sections             :b2, 2026-05-04, 2d
+    section Build
+    Create structure           :c1, 2026-05-06, 1d
+    Write Feynman notes        :c2, 2026-05-07, 5d
+    Add diagrams + links       :c3, 2026-05-12, 3d
+    section Verify
+    Run T1-T6 tests            :crit, d1, 2026-05-15, 1d
+    Fix issues                 :d2, 2026-05-16, 1d
+```
 
 ---
 
@@ -56,31 +146,17 @@ flowchart LR
 
 ```
 FeynFlow/
-├── README.md / .en.md / .es.md   # Multi-language docs with language switcher
+├── README.md / .en.md / .es.md   # Multi-language docs
 ├── plugin.json                    # Plugin metadata
-│
-├── agents/                        # 4 Claude Code agents
-│   ├── 01-setup.agent.md          # Environment setup + search materials
-│   ├── 02-extract.agent.md        # Extract textbook sections
-│   ├── 03-build.agent.md          # Build skeleton + write notes + diagrams
-│   └── 04-verify.agent.md         # 6 tests T1-T6 + auto-fix loop
-│
-├── templates/                     # 7 Obsidian note templates
-│   ├── 概念笔记模板.md              # ★/★★/★★★ Feynman notes
-│   ├── MOC模板.md                  # Chapter navigation index
-│   ├── 习题笔记模板.md              # Exercise problem guide
-│   ├── 思考题模板.md                # Preview thought questions
-│   ├── 每日学习日志模板.md           # Daily Feynman log
-│   ├── MATLAB提示词模板.md          # 6-section code prompts
-│   └── AI费曼导师系统指令.md         # Cherry Studio system prompt
-│
+├── agents/
+│   ├── 01-setup.agent.md          # Environment setup
+│   ├── 02-extract.agent.md        # Extract textbook
+│   ├── 03-build.agent.md          # Build notes + diagrams
+│   └── 04-verify.agent.md         # 6 tests T1-T6 + auto-fix
+├── templates/                     # 7 Obsidian templates
 ├── hooks/
-│   └── pre-build.sh               # Pre-build check
-│
-├── skeleton/                      # New project template
-│
 └── examples/
-    └── 电磁场与电磁波/              # Full working example (511 files)
+    └── 电磁场与电磁波/              # Full example (511 files)
 ```
 
 ---
@@ -93,96 +169,127 @@ FeynFlow/
 |----------|---------|---------|
 | **Pandoc** ⚠️ Required | Textbook → Markdown | `winget install pandoc`(Win) / `brew install pandoc`(Mac) |
 | **Claude Code** | Run agents | `npm install -g @anthropic-ai/claude-code` |
-| **Cherry Studio** (optional) | RAG knowledge base | https://github.com/CherryHQ/cherry-studio/releases |
-| **Qwen3-Embedding-8B** (optional) | Local embedding | Select in Cherry Studio KB settings (free) |
-
-Verify: `pandoc --version`
-
-### Install
 
 ```bash
 git clone https://github.com/3229218431/FeynFlow.git
 cd FeynFlow
-```
-
-### Create Knowledge Base for New Subject
-
-```bash
-# Copy skeleton to new directory
-cp -r skeleton/* ../my-new-subject/
-cd ../my-new-subject
-# Place your textbook file here (e.g. textbook.docx)
-# Run agents
+cp -r skeleton/* ../my-subject/
+cd ../my-subject
 claude ../FeynFlow/agents/01-setup.agent.md
 claude ../FeynFlow/agents/02-extract.agent.md
 claude ../FeynFlow/agents/03-build.agent.md
 claude ../FeynFlow/agents/04-verify.agent.md
 ```
 
-### Configure Cherry Studio
-
-1. **Create knowledge base** → Embedding model: `Qwen3-Embedding-8B`
-2. **Add folder** → Select `my-new-subject/` directory
-3. **System prompt** → Paste `Templates/AI费曼导师系统指令.md` content
-4. **Start learning** → AI auto-retrieves textbook content, teaches with Feynman method
-
 ---
 
 ## 🧠 Note Quality Standards
 
-| Level | Size | Cognitive | Feynman Step | Use Case |
-|-------|------|-----------|-------------|----------|
-| ★ Basic | 3000-6000 B | Remember+Understand | Steps 1-2 | Advanced topics, simple concepts |
-| ★★ Applied | 6000-10000 B | Understand+Apply | Steps 1-3 | Core concepts, regular chapters |
-| ★★★ Master | 10000-15000+ B | Analyze+Synthesize | All 4 steps | Hub chapters (Maxwell eq, etc.) |
+| Level | Size | Cognitive | Feynman Step | Usage |
+|-------|------|-----------|-------------|-------|
+| ★ Basic | 3000-6000 B | Remember+Understand | 1-2 | Advanced topics |
+| ★★ Applied | 6000-10000 B | Understand+Apply | 1-3 | Core concepts |
+| ★★★ Master | 10000-15000 B | Analyze+Synthesize | 1-4 | Hub chapters |
 
 Every note structure:
 ```
 **Keywords**: tags → RAG optimization
-## Textbook Original → [[§link]] → link to central text
+## Textbook Original → [[§link]]
 ## Concept Definition (Feynman Step 1) → one sentence
-## Analogy & Intuition (Feynman Step 2) → life metaphors
-## Core Formula ($$ + symbol table) → each symbol explained
-## Derivation (Mermaid/PlantUML) → visual flowchart
-## Common Mistakes (Feynman Step 3) → expose blind spots
-## Feynman Check (Feynman Step 4) → self-test questions
-## Concept Navigation → [[Wiki links]] → bidirectional links
-## My Understanding → user fills in Feynman retelling
+## Analogy (Feynman Step 2) → life metaphor
+## Core Formula ($$ + symbol table)
+## Derivation (Mermaid/PlantUML)
+## Common Mistakes (Feynman Step 3)
+## Feynman Check (Feynman Step 4) → self-test
+## Concept Navigation → [[wiki links]]
+## My Understanding → user fills in
 ```
 
 ---
 
 ## 🧪 6 Quality Tests (T1-T6)
 
-Agent 04 auto-executes:
-
-| Test | Checks | Auto-fix |
-|------|--------|---------|
-| **T1 Links** | No dead links, no isolated nodes | ✅ Auto-replace |
-| **T2 Formulas** | All in `$$...$$` | ✅ Auto-wrap |
-| **T3 Diagrams** | Mermaid/PlantUML syntax | ✅ Auto-correct |
-| **T4 Content** | Size, keywords, self-understanding | ✅ Auto-add |
-| **T5 Coverage** | Every § has a note | ✅ Auto-create |
-| **T6 Graph** | Backlinks complete | ✅ Auto-add |
+```mermaid
+%%{init: {'theme':'base','themeVariables': {'primaryColor': '#EF4444','primaryTextColor':'#fff','secondaryColor': '#F59E0B','noteBkgColor': '#1f2937','noteTextColor': '#d1d5db'}}}%%
+stateDiagram-v2
+    [*] --> T1_LinkCheck
+    T1_LinkCheck --> T2_FormulaCheck: pass
+    T1_LinkCheck --> T1_LinkCheck: fix
+    T2_FormulaCheck --> T3_DiagramCheck: pass
+    T2_FormulaCheck --> T2_FormulaCheck: fix
+    T3_DiagramCheck --> T4_ContentCheck: pass
+    T3_DiagramCheck --> T3_DiagramCheck: fix
+    T4_ContentCheck --> T5_CoverageCheck: pass
+    T4_ContentCheck --> T4_ContentCheck: fix
+    T5_CoverageCheck --> T6_GraphCheck: pass
+    T5_CoverageCheck --> T5_CoverageCheck: fix
+    T6_GraphCheck --> [*]: All Passed
+    T6_GraphCheck --> T6_GraphCheck: fix
+```
 
 ---
 
 ## 📊 Example: EM Fields & Waves
 
-`examples/电磁场与电磁波/` is a fully built example:
+`examples/电磁场与电磁波/` is a complete working example:
 
 | Metric | Value |
 |--------|-------|
 | Textbook chapters | 1-8 |
 | Textbook original files | **64** § files |
 | Concept notes | **328** |
-| RAG keywords | **166** notes with `**关键词**：` |
-| Textbook bidirectional links | **262** `[[§links]]` |
+| RAG keywords | **166** |
+| Bidirectional links | **262** |
 | Mermaid diagrams | **112** |
-| Total diagrams | **~250+** (inc. PlantUML/WaveDrom/Graphviz) |
+| PlantUML diagrams | **30** |
+| Total diagrams | **~250** |
 | Min note size | 5000+ bytes |
 | Git commits | 45 |
 | Build iterations | 6 agent loops |
+
+---
+
+## 🎯 Why Feynman + Obsidian + RAG Works
+
+```mermaid
+%%{init: {'theme':'base','themeVariables': {'primaryColor': '#10B981','primaryBorderColor':'#059669','lineColor':'#6B7280','secondaryColor': '#3B82F6','tertiaryColor': '#F59E0B','primaryTextColor':'#fff'}}}%%
+flowchart TD
+    subgraph Feynman[Feynman Method]
+        A1[Define Concept]:::feyn --> A2[Plain Language]:::feyn
+        A2 --> A3[Check Blind Spots]:::feyn
+        A3 --> A4[Simplify]:::feyn
+    end
+    subgraph Obsidian[Obsidian Links]
+        B1[Atomic Notes]:::obs --> B2[Wiki Links]:::obs
+        B2 --> B3[Knowledge Graph]:::obs
+        B3 --> B4[Discover Connections]:::obs
+    end
+    subgraph RAG[RAG AI]
+        C1[Vector Embedding]:::rag --> C2[Semantic Search]:::rag
+        C2 --> C3[AI + Context]:::rag
+        C3 --> C4[Accurate Answers]:::rag
+    end
+    A4 -.-> C1
+    B4 -.-> A3
+    C4 -.-> A2
+    
+    classDef feyn fill:#10B981,stroke:#059669,color:#fff
+    classDef obs fill:#3B82F6,stroke:#2563EB,color:#fff
+    classDef rag fill:#F59E0B,stroke:#D97706,color:#fff
+```
+
+---
+
+## 📐 Quality Dimensions
+
+| Dimension | Requirement | Enforcement |
+|-----------|-------------|-------------|
+| Completeness | Every § has a note | Agent 02 + T5 |
+| Accuracy | Based on textbook original | `## Textbook → [[§link]]` |
+| Connectivity | ≥3 `[[links]]` per note | Agent 03 + T1 |
+| Searchability | `**Keywords**` in every note | Agent 03 |
+| Visualization | ≥1 diagram per note | Agent 03 |
+| Testability | Feynman self-test questions | Template enforced |
 
 ---
 

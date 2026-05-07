@@ -124,22 +124,22 @@ sequenceDiagram
 
 ```mermaid
 gantt
-    title Knowledge Base Build Timeline
+    title 构建知识库时间预估
     dateFormat  YYYY-MM-DD
     axisFormat  %m-%d
-    section Setup
-    Install dependencies       :a1, 2026-05-01, 1d
-    Copy skeleton + templates  :a2, 2026-05-02, 1d
-    section Extract
-    Convert textbook to MD     :b1, 2026-05-03, 1d
-    Split into section files   :b2, 2026-05-04, 2d
-    section Build
-    Create folder structure    :c1, 2026-05-06, 1d
-    Write Feynman notes        :c2, 2026-05-07, 5d
-    Add diagrams + links       :c3, 2026-05-12, 3d
-    section Verify
-    Run T1-T6 tests            :crit, d1, 2026-05-15, 1d
-    Fix issues                 :d2, 2026-05-16, 1d
+    section 🔧 准备
+    安装依赖           :a1, 2026-05-01, 1d
+    复制模板           :a2, 2026-05-02, 1d
+    section 📄 提取
+    教科书转MD         :b1, 2026-05-03, 1d
+    拆分章节文件       :b2, 2026-05-04, 2d
+    section 🏗️ 构建
+    创建目录结构       :c1, 2026-05-06, 1d
+    写费曼笔记         :c2, 2026-05-07, 5d
+    添加图表+链接      :c3, 2026-05-12, 3d
+    section ✅ 验证
+    运行T1-T6测试      :crit, d1, 2026-05-15, 1d
+    修复问题           :d2, 2026-05-16, 1d
 ```
 
 ---
