@@ -1,10 +1,23 @@
 {
   "name": "FeynFlow",
   "version": "1.0.0",
-  "description": "费曼+Workflow：Claude Code生成Obsidian知识库 → Cherry Studio RAG → AI费曼导师交互式教学",
-  "author": "FeynFlow",
-  "type": "workflow",
-  "agents": ["agents/01-setup.agent.md", "agents/02-extract.agent.md", "agents/03-build.agent.md", "agents/04-verify.agent.md"],
-  "templates": ["templates/"],
-  "hooks": ["hooks/"]
+  "description": "费曼+Workflow：Claude Code 生成 Obsidian 知识库 → Cherry Studio RAG → AI 费曼导师交互式教学",
+  "author": "3229218431",
+  "repository": "https://github.com/3229218431/FeynFlow",
+  "license": "MIT",
+  "type": "plugin",
+  "agents": [
+    {"id": "01-setup", "file": "agents/01-setup.agent.md", "name": "环境准备", "description": "检查依赖、搜索辅助材料"},
+    {"id": "02-extract", "file": "agents/02-extract.agent.md", "name": "提取教科书", "description": "按§拆分为原文文件"},
+    {"id": "03-build", "file": "agents/03-build.agent.md", "name": "构建知识库", "description": "写费曼笔记+7种图表"},
+    {"id": "04-verify", "file": "agents/04-verify.agent.md", "name": "测试验证", "description": "6项质量测试+自动修复"}
+  ],
+  "templates": "templates/",
+  "hooks": {
+    "pre-build": "hooks/pre-build.sh"
+  },
+  "workspace": {
+    "example": "examples/电磁场与电磁波",
+    "skeleton": "skeleton"
+  }
 }

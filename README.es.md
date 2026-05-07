@@ -4,63 +4,77 @@
 
 # FeynFlow — Feynman + Workflow
 
-> Feynman + Workflow: Claude Code genera base de conocimiento Obsidian → Cherry Studio RAG → Tutor AI Feynman
+> **Feynman + Workflow**：Claude Code genera notas Obsidian → Cherry Studio RAG → Tutor interactivo IA Feynman.
+>
+> Convierte cualquier libro de texto en una base de conocimiento para tutor IA.
 
-## Origen
+---
+
+## 📖 Origen
 
 > Descubrí que los prompts de IA con el método Feynman son muy efectivos: primero analogías cotidianas, luego preguntas para hacerte pensar, luego diagramas según mis respuestas. Cuando tuve dificultades con mi curso de campos electromagnéticos, pensé: ¿puede la IA ayudarme a aprender sistemáticamente? La solución: Claude Code genera notas Obsidian desde el libro de texto → Cherry Studio las lee como base de conocimiento → modelos de embedding locales (casi gratis) → tutor IA Feynman enseña interactivamente.
 
-## Flujo de Trabajo
+---
+
+## 🔧 Flujo de Trabajo
 
 ```mermaid
 flowchart LR
-    A[Texto Original] --> B[Claude Code Agents]
+    A[Libro de Texto] --> B[Claude Code 4 Agentes]
     B --> C[Notas Obsidian Feynman]
     C --> D[Cherry Studio RAG]
     D --> E[Embedding Local<br>Qwen3-Embedding-8B]
-    E --> F[Tutor IA Feynman<br>Enseñanza Interactiva]
-    
-    F -->|"Concepto → Analogía → Prueba"| G[Comprensión]
-    G -->|"¿Aún atascado?"| H[Volver a Prerrequisitos]
+    E --> F[Tutor IA Feynman]
+    F --> G[✓ Comprensión]
+    G -->|¿Atascado?| H[Volver a Prerrequisitos]
     H --> B
 ```
 
-## En Una Línea
-
-Convierte cualquier libro de texto en una base de conocimiento para un tutor IA Feynman.
-
-## Contenido
+## 📦 Contenido del Paquete
 
 | Componente | Propósito |
 |-----------|-----------|
-| `agents/` | 4 agentes: setup, extraer, construir, verificar |
+| `agents/01-setup` | Preparar entorno + buscar materiales |
+| `agents/02-extract` | Extraer libro de texto → archivos § |
+| `agents/03-build` | Construir notas + diagramas + MOC |
+| `agents/04-verify` | 6 pruebas T1-T6 + reparación automática |
 | `templates/` | 7 plantillas para notas Obsidian |
-| `hooks/` | Hooks para Claude Code |
-| `examples/` | Proyecto ejemplo completo (campos electromagnéticos) |
+| `examples/` | Ejemplo completo (campos electromagnéticos) |
 
-## Requisitos
-
-**Pandoc es necesario** (convierte libros de texto a Markdown):
-
-| SO | Comando |
-|----|---------|
-| Windows | `winget install pandoc` o descargar de [pandoc.org](https://pandoc.org/installing.html) |
-| macOS | `brew install pandoc` |
-| Linux | `sudo apt install pandoc` (Ubuntu) / `sudo dnf install pandoc` (Fedora) |
-
-Verificar: `pandoc --version`
-
-## Uso Rápido
+## 🚀 Inicio Rápido
 
 ```bash
-git clone https://github.com/[tu-usuario]/FeynFlow.git
+# Requisito: Pandoc
+winget install pandoc  # Windows
+brew install pandoc    # macOS
+
+# Instalar
+git clone https://github.com/3229218431/FeynFlow.git
 cd FeynFlow
-# Copiar a nuevo proyecto
-cp -r skeleton/* ../mi-nuevo-tema/
-cd ../mi-nuevo-tema
+
+# Crear proyecto nuevo
+cp -r skeleton/* ../mi-tema/
+cd ../mi-tema
+
 # Ejecutar agentes
-claude agents/01-setup.agent.md
-claude agents/02-extract.agent.md
-claude agents/03-build.agent.md
-claude agents/04-verify.agent.md
+claude ../FeynFlow/agents/01-setup.agent.md
+claude ../FeynFlow/agents/02-extract.agent.md
+claude ../FeynFlow/agents/03-build.agent.md
+claude ../FeynFlow/agents/04-verify.agent.md
 ```
+
+## 📊 Ejemplo: Campos Electromagnéticos
+
+`examples/电磁场与电磁波/` es un ejemplo completo:
+
+| Métrica | Valor |
+|---------|-------|
+| Archivos de texto original | **64** § |
+| Notas conceptuales | **328** |
+| Diagramas Mermaid | **112** |
+| Enlaces bidireccionales | **262** |
+| Commits Git | 45 |
+
+---
+
+[English](README.en.md) | [中文](README.md) | [Español](README.es.md)
