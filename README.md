@@ -281,7 +281,7 @@ flowchart LR
 ## 🧪 6 项质量测试（T1-T6）
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables': {'primaryColor': '#EF4444','primaryTextColor':'#fff','secondaryColor': '#F59E0B','noteBkgColor': '#1f2937','noteTextColor': '#d1d5db'}}}%%
+%%{init: {'theme':'base','themeVariables': {'primaryColor': '#EF4444','primaryTextColor':'#fff','lineColor':'#FCA5A5','secondaryColor': '#F59E0B','noteBkgColor': '#1f2937','noteTextColor': '#d1d5db'}}}%%
 stateDiagram-v2
     [*] --> T1_LinkCheck
     T1_LinkCheck --> T2_FormulaCheck: ✅ pass

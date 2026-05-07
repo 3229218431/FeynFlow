@@ -210,7 +210,7 @@ Every note structure:
 ## 🧪 6 Quality Tests (T1-T6)
 
 ```mermaid
-%%{init: {'theme':'base','themeVariables': {'primaryColor': '#EF4444','primaryTextColor':'#fff','secondaryColor': '#F59E0B','noteBkgColor': '#1f2937','noteTextColor': '#d1d5db'}}}%%
+%%{init: {'theme':'base','themeVariables': {'primaryColor': '#EF4444','primaryTextColor':'#fff','lineColor':'#FCA5A5','secondaryColor': '#F59E0B','noteBkgColor': '#1f2937','noteTextColor': '#d1d5db'}}}%%
 stateDiagram-v2
     [*] --> T1_LinkCheck
     T1_LinkCheck --> T2_FormulaCheck: pass
@@ -225,6 +225,36 @@ stateDiagram-v2
     T5_CoverageCheck --> T5_CoverageCheck: fix
     T6_GraphCheck --> [*]: All Passed
     T6_GraphCheck --> T6_GraphCheck: fix
+    note right of T1_LinkCheck: Dead links + isolated nodes
+    note right of T2_FormulaCheck: $$...$$ wrapping
+    note right of T3_DiagramCheck: Mermaid/PlantUML syntax
+    note right of T4_ContentCheck: Keywords + Self-understanding
+    note right of T5_CoverageCheck: ToC section mapping
+    note right of T6_GraphCheck: Backlinks complete
+
+| Test | Checks | Auto-fix |
+|------|--------|---------|
+| T1 Links | No dead links | ✅ |
+| T2 Formulas | All in $$ | ✅ |
+| T3 Diagrams | Correct syntax | ✅ |
+| T4 Content | Keywords + sections | ✅ |
+| T5 Coverage | Full TOC | ✅ |
+| T6 Graph | Backlinks complete | ✅ |
+
+| Test | Checks | Auto-fix |
+|------|--------|---------|
+| T1 Links | No dead links, no isolated nodes | ✅ |
+| T2 Formulas | All in $$ | ✅ |
+| T3 Diagrams | Mermaid/PlantUML syntax | ✅ |
+| T4 Content | Keywords + self-understanding | ✅ |
+| T5 Coverage | TOC every § covered | ✅ |
+| T6 Graph | Backlinks complete | ✅ |
+    note right of T1_LinkCheck: Dead links + isolated nodes
+    note right of T2_FormulaCheck: $$...$$ wrapping
+    note right of T3_DiagramCheck: Mermaid/PlantUML syntax
+    note right of T4_ContentCheck: Keywords + Self-understanding
+    note right of T5_CoverageCheck: ToC section mapping
+    note right of T6_GraphCheck: Backlinks complete
 ```
 
 ---
