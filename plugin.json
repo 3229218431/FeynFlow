@@ -1,6 +1,6 @@
 {
   "name": "FeynFlow",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "费曼+Workflow：Claude Code 生成 Obsidian 知识库 → Cherry Studio RAG → AI 费曼导师交互式教学",
   "author": "3229218431",
   "repository": "https://github.com/3229218431/FeynFlow",

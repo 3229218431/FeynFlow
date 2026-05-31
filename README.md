@@ -2,11 +2,15 @@
 
 ---
 
-# FeynFlow — Feynman + Workflow
+# FeynFlow v2.0 — Feynman + Workflow + v3.0 教学规则
 
 > **费曼+Workflow**：Claude Code 生成 Obsidian 知识库 → Cherry Studio RAG → AI 费曼导师交互式教学。
 >
-> 把任意教科书变成一个 AI 费曼导师知识库。全套工具链开箱即用。
+> 把任意教科书变成一个 AI 费曼导师知识库。**2026-05 升级：完整 v3.0 教学规则体系（15条规则 + 4种教学模式 + 12段emoji格式 + 考前冲刺框架）。**
+
+[![Version](https://img.shields.io/badge/version-2.0.0-blue)](plugin.json)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![Status](https://img.shields.io/badge/status-production%20ready-brightgreen)]()
 
 ---
 
@@ -148,105 +152,107 @@ gantt
 
 ```
 FeynFlow/
-├── README.md / .en.md / .es.md   # 多语言项目介绍（附语言切换按钮）
-├── plugin.json                    # 插件元数据
+├── README.md / .en.md / .es.md   # 多语言项目介绍
+├── plugin.json                    # 插件元数据 (v2.0.0)
 │
-├── agents/                        # 4个Claude Code agent
-│   ├── 01-setup.agent.md          # 环境准备 + 搜索辅助材料
-│   ├── 02-extract.agent.md        # 提取教科书原文
-│   ├── 03-build.agent.md          # 建骨架 + 写笔记 + 加图表
-│   └── 04-verify.agent.md         # 6项测试 T1-T6 + 自动修复
+├── agents/                        # 4个Claude Code agent (v3.0升级)
+│   ├── 01-setup.agent.md          # 环境准备 + 课程类型自动检测
+│   ├── 02-extract.agent.md        # 提取教科书原文 (§拆分+LaTeX)
+│   ├── 03-build.agent.md          # v3.0格式费曼笔记 + 7种图表
+│   └── 04-verify.agent.md         # 6项质量测试 T1-T6 + 自动修复
 │
-├── templates/                     # 7个 Obsidian 笔记模板
-│   ├── 概念笔记模板.md              # ★/★★/★★★ 三级费曼笔记
-│   ├── MOC模板.md                  # 章节导航索引
-│   ├── 习题笔记模板.md              # 费曼式解题引导
-│   ├── 思考题模板.md                # 预习思考引导
-│   ├── 每日学习日志模板.md           # 费曼复盘
-│   ├── MATLAB提示词模板.md          # 六段式提示词
-│   └── AI费曼导师系统指令.md         # Cherry Studio 系统指令
+├── templates/                     # v3.0教学模板
+│   ├── CLAUDE.md                  # 🆕 v3.0 通用工科 AI 导师系统指令
+│   ├── AI费曼导师系统指令.md       # Cherry Studio 系统指令 (v3.0)
+│   ├── 概念笔记模板.md             # v3.0 12段emoji格式模板
+│   ├── MOC模板.md                 # 章节导航索引
+│   ├── 习题笔记模板.md             # 费曼式解题引导
+│   ├── 思考题模板.md               # 预习思考引导
+│   ├── 每日学习日志模板.md         # 费曼复盘（含考前冲刺模式）
+│   └── MATLAB提示词模板.md         # 六段式仿真提示词
 │
 ├── hooks/
-│   └── pre-build.sh               # 构建前检查
-│
-├── skeleton/                      # 新项目可复制骨架
+│   └── pre-build.sh               # 构建前检查 + 课程类型检测
 │
 └── examples/
-    └── 电磁场与电磁波/              # ★完整示例项目（511文件）
+    └── 电磁场与电磁波/             # ★完整v3.0示例（196篇笔记+250+图表）
 ```
 
 ---
 
-## 🚀 快速开始
+## 🚀 开箱即用（3 步上手）
 
-### 前置依赖
+### 第 1 步：安装依赖
 
-| 软件 | 用途 | 安装 |
-|------|------|------|
-| **Pandoc** ⚠️ 必须 | 教科书 → Markdown 转换 | `winget install pandoc`(Win) / `brew install pandoc`(Mac) |
-| **Claude Code** | 运行 agent | `npm install -g @anthropic-ai/claude-code` |
-| **Cherry Studio**（可选） | RAG 知识库教学 | https://github.com/CherryHQ/cherry-studio/releases |
-| **Qwen3-Embedding-8B**（可选） | 本地嵌入模型 | 在 Cherry Studio 知识库设置中选择（免费） |
+```bash
+# Windows
+winget install pandoc
+
+# Mac
+brew install pandoc
+```
 
 验证：`pandoc --version`
 
-### 安装 FeynFlow
+### 第 2 步：克隆插件包
 
 ```bash
 git clone https://github.com/3229218431/FeynFlow.git
 cd FeynFlow
 ```
 
-### 为新学科创建知识库
+### 第 3 步：运行 Agent 构建知识库
 
 ```bash
-# 复制骨架到新目录
-cp -r skeleton/* ../我的新学科/
-cd ../我的新学科
-# 把你的教科书放进项目根目录（如 教科书.docx）
-# 运行 agent 1: 环境准备
-claude ../FeynFlow/agents/01-setup.agent.md
+# 把教科书（.docx）放到项目目录下，然后依次运行：
+claude agents/01-setup.agent.md     # 环境准备 + 课程类型检测
+claude agents/02-extract.agent.md    # 提取教科书原文（按§拆分）
+claude agents/03-build.agent.md      # 构建 v3.0 格式知识库
+claude agents/04-verify.agent.md     # 6项质量测试 + 自动修复
 ```
 
-### 运行 Agent 的顺序
+Agent 01 会自动检测课程类型（工科/数学/英语），激活对应的 v3.0 教学规则。
 
-```bash
-claude ../FeynFlow/agents/01-setup.agent.md    # 1. 准备环境
-claude ../FeynFlow/agents/02-extract.agent.md   # 2. 提取章节原文
-claude ../FeynFlow/agents/03-build.agent.md     # 3. 构建笔记+图表
-claude ../FeynFlow/agents/04-verify.agent.md    # 4. 测试+修复
-```
+### 导入 Cherry Studio 开始 AI 教学
 
-### 在 Cherry Studio 中使用
+1. Cherry Studio → 知识库 → **创建** → 嵌入模型选 `Qwen3-Embedding-8B`（免费）
+2. **添加文件夹** → 选择你的学科目录
+3. **系统指令** → 粘贴 `templates/AI费曼导师系统指令.md`
+4. 开始对话 — AI 用费曼法 + v3.0 教学规则进行交互式教学
 
-1. **创建知识库** → 填入名称 → 嵌入模型选 `Qwen3-Embedding-8B`
-2. **添加文件夹** → 选择 `我的新学科/` 目录
-3. **系统指令** → 粘贴 `Templates/AI费曼导师系统指令.md` 的内容
-4. **开始对话** → AI 会自动检索教科书原文，用费曼法回答你的问题
+### 预览示例项目
+
+`examples/电磁场与电磁波/` 包含一个完整的 v3.0 知识库（196 篇笔记、250+ 图表），可直接导入 Cherry Studio 体验。
 
 ---
 
-## 🧠 笔记三级标准
+---
 
-| 级别 | 字数 | 认知层次 | 费曼步骤 | 适用章节 |
-|------|------|---------|---------|---------|
-| ★ 基础 | 3000-6000 字节 | 记忆+理解 | 第1-2步 | 进阶选学、简单概念 |
-| ★★ 应用 | 6000-10000 字节 | 理解+应用 | 第1-3步 | 核心概念、常规章节 |
-| ★★★ 精通 | 10000-15000+ 字节 | 分析+综合 | 全部4步 | 核心枢纽（如麦克斯韦方程） |
+## 🧠 v3.0 笔记格式（12段 emoji 标签）
 
-每篇笔记的固定结构：
+v2.0 的每篇笔记从 8 段升级为 12 段标准格式，新增重要度分类、工程场景、口诀和可跳过标注：
+
 ```
-**关键词**：标签 → RAG检索优化
-## 教科书原文 → [[§链接]] → 链接到集中原文文件
-## 概念定义（费曼第1步） → 一句话说清
-## 类比与直觉（费曼第2步） → 生活化比喻
-## 核心公式详释（$$ + 符号表） → 每个符号含义
-## 推导脉络（Mermaid/PlantUML等） → 可视化流程图
-## 常见误区（费曼第3步） → 暴露盲区
-## 费曼检验（费曼第4步） → 自测题
-## 概念导航 → Wiki链接 → 双向连接
-## 自己理解 → 用户填写费曼复述
+📌 一句话本质    → 12岁小孩能懂的一句话
+🏷️ 重要度        → 🔴核心/🟡重点/⚪了解/⬜跳过 | 考试星级 | 题型
+🔧 工程场景      → 具体产品/系统 + 搞错了会怎样
+🧠 口诀/类比     → 生活化比喻 + 7-15字押韵口诀
+📖 课程定位      → 前置依赖 → 当前概念 → 后续概念
+⚠️ 常见误区      → 3-5个高频错误
+❓ 费曼检验      → 2-3个自测问题
+✂️ 可跳过        → 考试不考的推导/扩展内容
+💻 验证/练习     → MATLAB/Python 仿真提示词
+🔗 关联概念      → Wiki双向链接
 ```
+
+### v3.0 重要度分类标准
+
+| 级别 | 学生要求 | 考试频率 | 篇幅占比 |
+|:---|:---|:---|:---|
+| 🔴 核心 | 不看笔记能讲+能算+能判断对错 | ★★★ 大题 | 60% |
+| 🟡 重点 | 能解释原理+知道什么时候用 | ★★ 小题 | 25% |
+| ⚪ 了解 | 知道存在+不混淆+知道去哪查 | ★ 偶尔 | 10% |
+| ⬜ 跳过 | 考前扫一眼公式 | 几乎不考 | 5% |
 
 ---
 
@@ -315,23 +321,21 @@ stateDiagram-v2
 
 ---
 
-## 📊 示例项目：电磁场与电磁波
+## 📊 示例项目：电磁场与电磁波（v3.0）
 
-`examples/电磁场与电磁波/` 是一个完整运行的示例：
+`examples/电磁场与电磁波/` 是一个完整的 v3.0 知识库：
 
 | 指标 | 数据 |
 |------|------|
 | 教科书章节 | 第1~8章 |
 | 教科书原文文件 | **64 个** §文件 |
-| 概念笔记 | **328 篇** |
-| RAG关键词 | **166 篇**含 `**关键词**：` |
-| 教科书双向链接 | **262 处** `[[§链接]]` |
-| Mermaid 图表 | **112 个** |
-| PlantUML 图表 | **30 个** |
-| 图表总数 | **约 250+ 个** |
-| 每篇笔记字数 | ≥5000 字节 |
-| Git 提交 | 45 次 |
-| 构建轮次 | 6 轮 agent 循环 |
+| v3.0 概念笔记 | **196 篇**（全部含 📌🏷️🔧🧠 标签） |
+| 重要度分类 | 🔴核心 80+ | 🟡重点 80+ | ⚪了解 30+ |
+| Mermaid/PlantUML 图表 | **250+ 个** |
+| 自定义口诀 | **150+ 条** 7-15字押韵口诀 |
+| 工程场景案例 | **120+ 个** 具体产品/故障场景 |
+| 费曼检验问题 | **400+ 题** |
+| 考前冲刺速查包 | 题型分类 + 口诀包 + 必拿分清单 |
 
 ## 项目结构总览
 

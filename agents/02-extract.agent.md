@@ -14,8 +14,11 @@ run: sequential
 
 ### 第2步：教科书 → Markdown 转换
 ```bash
-pandoc "教科书.docx" -t markdown --wrap=none -o _textbook.md
-mv _textbook.md _textbook.md  # 临时文件，后续处理
+pandoc "教科书.docx" \
+  -t markdown-auto_identifiers \
+  --wrap=none \
+  --tex-dollars \
+  -o _textbook.md
 ```
 
 ### 第3步：分析目录结构
@@ -33,6 +36,15 @@ mv _textbook.md _textbook.md  # 临时文件，后续处理
 - 该§的完整原文段落
 - LaTeX 公式转为 `$$...$$` 格式
 - 首页页码标注
+- YAML frontmatter 元数据：
+```yaml
+---
+textbook_section: "§X-X"
+textbook_page: N
+chapter: "第X章 标题"
+importance_pending: true
+---
+```
 
 ### 第5步：验证提取结果
 ```bash
